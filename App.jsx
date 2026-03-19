@@ -2,12 +2,12 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import MainNavigator from './src/navigation/MainNavigator';
 import { StatusBar } from 'react-native';
 import DeveloperModeModal from './src/components/DeveloperModeModal';
 import PermissionManager from './src/utils/PermissionManager';
 import OfflineNotice from './src/components/OfflineNotice';
-import { LanguageProvider } from './src/context/LanguageContext';
+import { LanguageProvider } from './src/context/SettingsContext';
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
       <SafeAreaProvider>
         <NavigationContainer>
           <StatusBar barStyle="light-content" />
-          <BottomTabNavigator />
+          <MainNavigator />
           <DeveloperModeModal />
           <PermissionManager />
           <OfflineNotice />

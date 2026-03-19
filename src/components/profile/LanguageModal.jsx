@@ -8,10 +8,10 @@ import {
   ScrollView
 } from 'react-native';
 import { ArrowLeft, Check } from 'lucide-react-native';
-import { useLanguage } from '../../context/LanguageContext';
+import { useSettings } from '../../context/SettingsContext';
 
 const LanguageModal = ({ visible, onClose }) => {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, colors } = useSettings();
 
   const languages = [
     { name: 'English', label: 'English' },
@@ -33,7 +33,7 @@ const LanguageModal = ({ visible, onClose }) => {
       onRequestClose={onClose}
       presentationStyle="fullScreen"
     >
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#0B0D0F' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
         {/* Header */}
         <View style={{ 
           flexDirection: 'row', 
@@ -41,12 +41,12 @@ const LanguageModal = ({ visible, onClose }) => {
           paddingHorizontal: 16, 
           paddingVertical: 16, 
           borderBottomWidth: 1, 
-          borderBottomColor: 'rgba(255,255,255,0.05)' 
+          borderBottomColor: colors.border 
         }}>
           <TouchableOpacity onPress={onClose} style={{ marginRight: 16 }}>
-            <ArrowLeft size={24} color="#fff" />
+            <ArrowLeft size={24} color={colors.text} />
           </TouchableOpacity>
-          <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>{t('language')}</Text>
+          <Text style={{ color: colors.text, fontSize: 20, fontWeight: 'bold' }}>{t('language')}</Text>
         </View>
 
         {/* Language List */}
@@ -61,12 +61,12 @@ const LanguageModal = ({ visible, onClose }) => {
                 alignItems: 'center', 
                 paddingVertical: 20,
                 borderBottomWidth: 1,
-                borderBottomColor: 'rgba(255,255,255,0.03)'
+                borderBottomColor: colors.border
               }}
             >
               <Text style={{ 
                 fontSize: 16, 
-                color: language === lang.name ? '#fff' : 'rgba(255,255,255,0.6)', 
+                color: language === lang.name ? colors.text : colors.textSecondary, 
                 fontWeight: language === lang.name ? 'bold' : 'normal' 
               }}>
                 {lang.label}
@@ -76,7 +76,7 @@ const LanguageModal = ({ visible, onClose }) => {
                   width: 24, 
                   height: 24, 
                   borderRadius: 12, 
-                  backgroundColor: '#9D174D', 
+                  backgroundColor: colors.primary, 
                   alignItems: 'center', 
                   justifyContent: 'center' 
                 }}>

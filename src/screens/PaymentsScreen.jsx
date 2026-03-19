@@ -40,19 +40,10 @@ const PaymentsScreen = () => {
     { label: 'Bank', icon: <Landmark size={28} color="#9D174D" />, bgColor: 'bg-primary/10' },
   ];
 
-  const recentPeople = [
-    { name: 'Aditya', initial: 'A', bgColor: 'bg-primary' },
-    { name: 'Sriya', initial: 'S', bgColor: 'bg-pink-600' },
-    { name: 'Rahul', initial: 'R', bgColor: 'bg-green-600' },
-    { name: 'Meera', initial: 'M', bgColor: 'bg-orange-600' },
-    { name: 'Karan', initial: 'K', bgColor: 'bg-primary' },
-  ];
-
-  const billCategories = [
-    { label: 'Mobile', icon: <Smartphone size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
-    { label: 'Electricity', icon: <Plus size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
-    { label: 'DTH', icon: <History size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
-    { label: 'Water', icon: <Plus size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
+  const bankAccounts = [
+    { bankName: 'HDFC Bank', accNo: 'XXXX 1234', initial: 'H', bgColor: 'bg-blue-600/20' },
+    { bankName: 'ICICI Bank', accNo: 'XXXX 5678', initial: 'I', bgColor: 'bg-orange-600/20' },
+    { bankName: 'SBI Bank', accNo: 'XXXX 9012', initial: 'S', bgColor: 'bg-indigo-600/20' },
   ];
 
   return (
@@ -116,36 +107,36 @@ const PaymentsScreen = () => {
           ))}
         </View>
 
-        {/* Recent People */}
-        <SectionHeader title="Recent People" actionText="See all" />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-8 -mx-4 px-4 overflow-visible">
-          {recentPeople.map((person, index) => (
-            <TouchableOpacity key={index} className="items-center mr-6">
-              <View className={`w-14 h-14 rounded-full ${person.bgColor} items-center justify-center mb-2`}>
-                <Text className="text-white font-bold text-lg">{person.initial}</Text>
+        {/* Bank Details */}
+        <SectionHeader title="Bank accounts" />
+        <View className="mb-8">
+          {bankAccounts.map((bank, index) => (
+            <TouchableOpacity 
+              key={index} 
+              className="flex-row items-center justify-between py-4 border-b border-white/5"
+              activeOpacity={0.7}
+            >
+              <View className="flex-row items-center">
+                <GlassView className={`w-12 h-12 rounded-full border border-white/5 items-center justify-center mr-4 ${bank.bgColor}`}>
+                    <Text className="text-white font-bold text-lg">{bank.initial}</Text>
+                </GlassView>
+                <View>
+                  <Text className="text-white font-bold text-base">{bank.bankName}</Text>
+                  <Text className="text-white/40 text-xs">{bank.accNo}</Text>
+                </View>
               </View>
-              <Text className="text-white/60 text-[11px] font-medium">{person.name}</Text>
+              <TouchableOpacity className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl">
+                <Text className="text-primary font-bold text-xs">Check balance</Text>
+              </TouchableOpacity>
             </TouchableOpacity>
           ))}
-          <TouchableOpacity className="items-center mr-6">
-              <View className="w-14 h-14 rounded-full bg-slate-800 items-center justify-center mb-2 border border-slate-700">
-                <Search size={20} color="#64748b" />
-              </View>
-              <Text className="text-slate-500 text-[11px] font-medium">Search</Text>
+          
+          <TouchableOpacity className="flex-row items-center py-6">
+            <View className="w-12 h-12 rounded-full bg-slate-800 items-center justify-center mr-4 border border-white/5">
+                <Plus size={24} color="#fff" />
+            </View>
+            <Text className="text-white font-medium">Add bank account</Text>
           </TouchableOpacity>
-        </ScrollView>
-
-        {/* Bills & Recharge */}
-        <SectionHeader title="Bills & Recharge" actionText="More" />
-        <View className="flex-row flex-wrap justify-between px-1 mb-4">
-          {billCategories.map((item, index) => (
-            <CategoryItem 
-              key={index}
-              label={item.label}
-              icon={item.icon}
-              bgColor={item.bgColor}
-            />
-          ))}
         </View>
 
         {/* Offers Section */}
