@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { ChevronRight } from 'lucide-react-native';
 
-const ProfileListItem = ({ icon, title, subtitle, onPress, badgeText, badgeColor = 'bg-blue-500' }) => {
+const ProfileListItem = ({ icon, title, subtitle, onPress, badgeText, badgeColor = 'bg-primary' }) => {
   return (
     <TouchableOpacity 
       onPress={onPress}

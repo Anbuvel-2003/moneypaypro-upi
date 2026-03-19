@@ -40,14 +40,14 @@ const HomeScreen = () => {
   });
 
   const billsData = [
-    { label: 'Jio Prepaid', bgColor: 'bg-blue-600' },
+    { label: 'Jio Prepaid', bgColor: 'bg-primary' },
     { label: 'Airtel Prepaid', bgColor: 'bg-red-600' },
     { label: 'Vi Prepaid', bgColor: 'bg-rose-500' },
     { label: 'Google Play', bgColor: 'bg-white' },
-    { label: 'Mobile recharge', icon: <Smartphone size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
-    { label: 'DTH / Cable TV', icon: <Tv size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
-    { label: 'Electricity', icon: <Lightbulb size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
-    { label: 'FASTag recharge', icon: <Car size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
+    { label: 'Mobile recharge', icon: <Smartphone size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
+    { label: 'DTH / Cable TV', icon: <Tv size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
+    { label: 'Electricity', icon: <Lightbulb size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
+    { label: 'FASTag recharge', icon: <Car size={24} color="#9D174D" />, bgColor: 'bg-primary/10' },
   ];
 
   const businessData = [
@@ -76,7 +76,7 @@ const HomeScreen = () => {
             </View>
             <View className="w-full h-40 rounded-3xl bg-slate-900/50 border border-white/5 items-center justify-center">
                 <Text className="text-white/40 mb-2">Scan any QR code</Text>
-                <View className="w-16 h-16 rounded-2xl bg-blue-600 items-center justify-center">
+                <View className="w-16 h-16 rounded-2xl bg-primary items-center justify-center">
                     <Smartphone size={32} color="#fff" />
                 </View>
             </View>
@@ -112,15 +112,15 @@ const HomeScreen = () => {
         <SectionHeader title="Gift cards & more" />
         <View className="flex-row gap-4 mb-8">
           <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
-            <View className="w-10 h-10 bg-blue-600/20 rounded-xl items-center justify-center mb-3">
-              <Plus size={24} color="#60A5FA" />
+            <View className="w-10 h-10 bg-primary/20 rounded-xl items-center justify-center mb-3">
+              <Plus size={24} color="#9D174D" />
             </View>
             <Text className="text-white font-bold text-sm mb-1">Subscriptions</Text>
             <Text className="text-white/40 text-[10px]">Buy plans from</Text>
           </GlassView>
           <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
-            <View className="w-10 h-10 bg-blue-600/20 rounded-xl items-center justify-center mb-3">
-              <CreditCard size={24} color="#60A5FA" />
+            <View className="w-10 h-10 bg-primary/20 rounded-xl items-center justify-center mb-3">
+              <CreditCard size={24} color="#9D174D" />
             </View>
             <Text className="text-white font-bold text-sm mb-1">Gift cards</Text>
             <Text className="text-white/40 text-[10px]">Buy gift cards</Text>
@@ -138,30 +138,30 @@ const HomeScreen = () => {
         <SectionHeader title="Manage your money" />
         <View className="flex-row gap-4 mb-4">
             <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
-                <ShieldCheck size={24} color="#60A5FA" className="mb-3" />
+                <ShieldCheck size={24} color="#9D174D" className="mb-3" />
                 <Text className="text-white font-bold text-sm mb-1">Flex by Google Pay</Text>
                 <Text className="text-white/40 text-[10px] mb-4">UPI credit card made simple</Text>
-                <Text className="text-blue-400 font-bold text-xs">Apply</Text>
+                <Text className="text-primary font-bold text-xs">Apply</Text>
             </GlassView>
             <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
-                <Landmark size={24} color="#60A5FA" className="mb-3" />
+                <Landmark size={24} color="#9D174D" className="mb-3" />
                 <Text className="text-white font-bold text-sm mb-1">Personal loan</Text>
                 <Text className="text-white/40 text-[10px] mb-4">Up to ₹10 lakh, instant approval</Text>
-                <Text className="text-blue-400 font-bold text-xs">Check details</Text>
+                <Text className="text-primary font-bold text-xs">Check details</Text>
             </GlassView>
         </View>
 
         <ManageMoneyItem 
           title="Check your CIBIL score for free"
-          icon={<History size={24} color="#60A5FA" />}
+          icon={<History size={24} color="#9D174D" />}
         />
         <ManageMoneyItem 
           title="See transaction history"
-          icon={<History size={24} color="#60A5FA" />}
+          icon={<History size={24} color="#9D174D" />}
         />
         <ManageMoneyItem 
           title="Check bank balance"
-          icon={<Landmark size={24} color="#60A5FA" />}
+          icon={<Landmark size={24} color="#9D174D" />}
         />
 
         <View className="h-40" />
@@ -169,12 +169,12 @@ const HomeScreen = () => {
 
       <GlassBottomSheet ref={bottomSheetRef}>
         <View className="items-center mb-6">
-          <View className="w-20 h-20 bg-blue-600 rounded-full items-center justify-center mb-4">
+          <View className="w-20 h-20 bg-primary rounded-full items-center justify-center mb-4">
             <Text className="text-white text-3xl">✓</Text>
           </View>
           <Text className="text-2xl font-bold text-white">Payment Success</Text>
         </View>
-        <TouchableOpacity className="bg-blue-600 py-4 rounded-3xl w-full items-center">
+        <TouchableOpacity className="bg-primary py-4 rounded-3xl w-full items-center">
           <Text className="text-white font-bold text-lg">Done</Text>
         </TouchableOpacity>
       </GlassBottomSheet>

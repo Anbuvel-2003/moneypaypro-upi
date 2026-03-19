@@ -36,7 +36,7 @@ const QRCodeModal = ({ visible, onClose, upiId, userName }) => {
           </TouchableOpacity>
 
           <View className="mt-4 mb-8 items-center">
-            <View className="w-20 h-20 rounded-3xl bg-blue-600 items-center justify-center mb-4">
+            <View className="w-20 h-20 rounded-3xl bg-primary items-center justify-center mb-4">
                 <Text className="text-white text-3xl font-bold">{userName?.charAt(0) || 'U'}</Text>
             </View>
             <Text className="text-white text-xl font-bold">{userName}</Text>
@@ -55,7 +55,7 @@ const QRCodeModal = ({ visible, onClose, upiId, userName }) => {
           <View className="flex-row gap-4 w-full">
             <TouchableOpacity 
               onPress={handleShare}
-              className="flex-1 flex-row items-center justify-center bg-blue-600 py-4 rounded-2xl"
+              className="flex-1 flex-row items-center justify-center bg-primary py-4 rounded-2xl"
             >
               <Share2 size={18} color="#fff" className="mr-2" />
               <Text className="text-white font-bold">Share</Text>

@@ -28,22 +28,29 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>MoneyPay Pro needs access to your location to provide personalized services.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>MoneyPay Pro needs access to your camera to scan QR codes and take photos.</string>
+	<string>MoneyPay Pro needs access to your camera to scan QR codes for payments.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>MoneyPay Pro needs access to your contacts to allow you to send money to friends.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>MoneyPay Pro needs access to your photo library to let you upload profile pictures.</string>
+	<string>MoneyPay Pro needs access to your contacts to allow you to send money to friends and family.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>MoneyPay Pro needs access to your location to provide relevant nearby features.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>MoneyPay Pro needs access to your microphone for voice commands (if applicable).</string>
+	<string>MoneyPay Pro needs access to your microphone for video-based features.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>MoneyPay Pro needs access to your photo library to save QR codes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>MoneyPay Pro needs access to your photo library to scan QR codes from your gallery and to manage your profile picture.</string>
+	<key>RCTNewArchEnabled</key>
+	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Ionicons.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -63,9 +70,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Ionicons.ttf</string>
-	</array>
 </dict>
 </plist>

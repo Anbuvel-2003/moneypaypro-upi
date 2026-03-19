@@ -52,7 +52,7 @@ const ScanScreen = () => {
         </Text>
         <TouchableOpacity 
           onPress={() => navigation.goBack()}
-          className="bg-blue-600 px-8 py-3 rounded-2xl"
+          className="bg-primary px-8 py-3 rounded-2xl"
         >
           <Text className="text-white font-bold">Go Back</Text>
         </TouchableOpacity>

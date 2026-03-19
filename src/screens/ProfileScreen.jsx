@@ -1,23 +1,44 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { 
   CreditCard, 
   QrCode, 
   RefreshCcw, 
-  Heart, 
   Settings, 
   User, 
   HelpCircle, 
-  Globe 
+  Globe,
+  Heart
 } from 'lucide-react-native';
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import { useTabBarVisibility } from '../navigation/TabBarVisibilityContext';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileListItem from '../components/profile/ProfileListItem';
 import AddBankOption from '../components/profile/AddBankOption';
 import QRCodeModal from '../components/profile/QRCodeModal';
-import GlassView from '../components/GlassView';
+import { useLanguage } from '../context/LanguageContext';
+import LanguageModal from '../components/profile/LanguageModal';
 
 const ProfileScreen = () => {
+    const { hideTabBar, showTabBar } = useTabBarVisibility();
+    const { t, language: currentLanguage } = useLanguage();
+    const lastScrollY = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler({
+      onScroll: (event) => {
+        const currentScrollY = event.contentOffset.y;
+        if (currentScrollY > lastScrollY.value && currentScrollY > 100) {
+          hideTabBar();
+        } else if (currentScrollY < lastScrollY.value) {
+          showTabBar();
+        }
+        lastScrollY.value = currentScrollY;
+      },
+    });
+
     const [qrModalVisible, setQrModalVisible] = useState(false);
+    const [languageModalVisible, setLanguageModalVisible] = useState(false);
+    
     const user = {
         name: 'Dharani Surya',
         upiId: 'anbuvel2003@okaxis'
@@ -25,8 +46,10 @@ const ProfileScreen = () => {
 
     return (
         <View className="flex-1 bg-[#0B0D0F]">
-            <ScrollView 
+            <Animated.ScrollView 
                 className="flex-1"
+                onScroll={scrollHandler}
+                scrollEventThrottle={16}
                 contentContainerStyle={{ padding: 20, paddingTop: 40, paddingBottom: 100 }}
                 showsVerticalScrollIndicator={false}
             >
@@ -43,60 +66,60 @@ const ProfileScreen = () => {
                 {/* List Items */}
                 <View className="mb-8">
                     <ProfileListItem 
-                        icon={<CreditCard size={24} color="#60A5FA" />}
-                        title="Pay with credit or debit cards"
-                        subtitle="Contactless payments, bills, and more"
+                        icon={<CreditCard size={24} color="#9D174D" />}
+                        title={t('payWithCard')}
+                        subtitle={t('contactless')}
                         badgeText="Add"
-                        badgeColor="bg-blue-600/20"
+                        badgeColor="bg-primary/20"
                         onPress={() => console.log('Card click')}
                     />
                     
                     <ProfileListItem 
-                        icon={<QrCode size={24} color="#60A5FA" />}
-                        title="Your QR code"
-                        subtitle="Use to receive money from any UPI app"
+                        icon={<QrCode size={24} color="#9D174D" />}
+                        title={t('yourQRCode')}
+                        subtitle={t('receiveMoney')}
                         onPress={() => setQrModalVisible(true)}
                     />
 
                     <ProfileListItem 
-                        icon={<RefreshCcw size={24} color="#60A5FA" />}
-                        title="Autopay"
-                        subtitle="No pending requests"
+                        icon={<RefreshCcw size={24} color="#9D174D" />}
+                        title={t('autopay')}
+                        subtitle={t('noPending')}
                         onPress={() => console.log('Autopay click')}
                     />
 
                     <ProfileListItem 
-                        icon={<Heart size={24} color="#60A5FA" />}
-                        title="UPI Circle"
-                        subtitle="Help people you trust make UPI payme..."
+                        icon={<Heart size={24} color="#9D174D" />}
+                        title={t('upiCircle')}
+                        subtitle={t('helpPeople')}
                         badgeText="New"
-                        badgeColor="bg-blue-600/30"
+                        badgeColor="bg-primary/30"
                         onPress={() => console.log('Circle click')}
                     />
 
                     <ProfileListItem 
-                        icon={<Settings size={22} color="#60A5FA" />}
-                        title="Settings"
+                        icon={<Settings size={22} color="#9D174D" />}
+                        title={t('settings')}
                         onPress={() => console.log('Settings click')}
                     />
 
                     <ProfileListItem 
-                        icon={<User size={22} color="#60A5FA" />}
-                        title="Manage Google account"
+                        icon={<User size={22} color="#9D174D" />}
+                        title={t('manageAccount')}
                         onPress={() => console.log('Account click')}
                     />
 
                     <ProfileListItem 
-                        icon={<HelpCircle size={22} color="#60A5FA" />}
-                        title="Get help"
+                        icon={<HelpCircle size={22} color="#9D174D" />}
+                        title={t('getHelp')}
                         onPress={() => console.log('Help click')}
                     />
 
                     <ProfileListItem 
-                        icon={<Globe size={22} color="#60A5FA" />}
-                        title="Language"
-                        subtitle="English"
-                        onPress={() => console.log('Language click')}
+                        icon={<Globe size={22} color="#9D174D" />}
+                        title={t('language')}
+                        subtitle={currentLanguage}
+                        onPress={() => setLanguageModalVisible(true)}
                     />
                 </View>
 
@@ -104,7 +127,7 @@ const ProfileScreen = () => {
                 <View className="items-center py-4">
                     <Text className="text-white/20 text-xs">MoneyPay Pro v1.0.4</Text>
                 </View>
-            </ScrollView>
+            </Animated.ScrollView>
 
             {/* QR Code Modal */}
             <QRCodeModal 
@@ -112,6 +135,12 @@ const ProfileScreen = () => {
                 onClose={() => setQrModalVisible(false)}
                 upiId={user.upiId}
                 userName={user.name}
+            />
+
+            {/* Language Selection Modal */}
+            <LanguageModal 
+                visible={languageModalVisible}
+                onClose={() => setLanguageModalVisible(false)}
             />
         </View>
     );

@@ -12,7 +12,7 @@ const ProfileHeader = ({ userName, upiId, onOpenQR }) => {
         className="items-center"
       >
         <View className="w-24 h-24 rounded-[32px] bg-slate-800 items-center justify-center mb-4 border-2 border-white/10 overflow-hidden">
-          <View className="w-full h-full bg-blue-600 items-center justify-center">
+          <View className="w-full h-full bg-primary items-center justify-center">
              <Text className="text-white text-4xl font-bold">{userName?.charAt(0) || 'U'}</Text>
           </View>
         </View>

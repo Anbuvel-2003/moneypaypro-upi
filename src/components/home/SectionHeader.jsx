@@ -8,8 +8,8 @@ const SectionHeader = ({ title, actionText, onActionPress }) => {
       <Text className="text-xl text-white font-medium">{title}</Text>
       {actionText && (
         <TouchableOpacity onPress={onActionPress} className="flex-row items-center">
-          <Text className="text-blue-400 font-medium mr-1">{actionText}</Text>
-          <ChevronRight size={16} color="#60A5FA" />
+          <Text className="text-primary font-medium mr-1">{actionText}</Text>
+          <ChevronRight size={16} color="#9D174D" />
         </TouchableOpacity>
       )}
     </View>

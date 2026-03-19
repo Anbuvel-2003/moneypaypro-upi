@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import GlassView from '../GlassView';
 
-const CategoryItem = ({ label, icon, image, bgColor = 'bg-blue-600/20' }) => {
+const CategoryItem = ({ label, icon, image, bgColor = 'bg-primary/20' }) => {
   return (
     <TouchableOpacity className="items-center w-20 mb-6" activeOpacity={0.7}>
       <View className={`w-14 h-14 rounded-full items-center justify-center overflow-hidden mb-2 ${bgColor}`}>

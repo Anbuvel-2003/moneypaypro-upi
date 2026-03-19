@@ -11,6 +11,7 @@ import Animated, {
   runOnJS 
 } from 'react-native-reanimated';
 import { useTabBarVisibility } from './TabBarVisibilityContext';
+import { useLanguage } from '../context/LanguageContext';
 
 import Svg, { Path, Circle } from 'react-native-svg';
 
@@ -19,6 +20,7 @@ import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const insets = useSafeAreaInsets();
   const { translateY, showTabBar } = useTabBarVisibility();
+  const { t } = useLanguage();
   const [containerWidth, setContainerWidth] = React.useState(0);
   const numTabs = state.routes.length;
   const padding = 16; // px-2 is 8px * 2
@@ -131,7 +133,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 ? options.tabBarLabel
                 : options.title !== undefined
                   ? options.title
-                  : route.name;
+                  : t(route.name.toLowerCase());
 
               const isFocused = state.index === index;
 
@@ -147,7 +149,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 }
               };
 
-              const iconColor = isFocused ? '#fff' : 'rgba(255, 255, 255, 0.4)';
+              const iconColor = isFocused ? '#9D174D' : 'rgba(255, 255, 255, 0.4)';
 
               // Local Animated style for scaling and dimming
               const ItemAnimatedComponent = ({ children }) => {
@@ -171,7 +173,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                     <View className="items-center py-2">
                       {getIcon(route.name, iconColor, 24, isFocused)}
                       <Text 
-                        className={`text-[10px] mt-1 font-bold tracking-tight ${isFocused ? 'text-white' : 'text-white/40'}`}
+                        className={`text-[10px] mt-1 font-bold tracking-tight ${isFocused ? 'text-primary' : 'text-white/40'}`}
                       >
                         {label}
                       </Text>
