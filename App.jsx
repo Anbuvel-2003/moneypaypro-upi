@@ -6,6 +6,7 @@ import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import { StatusBar } from 'react-native';
 import DeveloperModeModal from './src/components/DeveloperModeModal';
 import PermissionManager from './src/utils/PermissionManager';
+import OfflineNotice from './src/components/OfflineNotice';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <BottomTabNavigator />
           <DeveloperModeModal />
           <PermissionManager />
+          <OfflineNotice />
         </NavigationContainer>
       </SafeAreaProvider>
     </GestureHandlerRootView>

@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import ScanScreen from '../screens/ScanScreen';
 import CustomTabBar from './CustomTabBar';
-import { View, Text } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,9 +27,9 @@ const BottomTabNavigator = () => {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Payments" component={() => <Placeholder name="Payments" />} />
-        <Tab.Screen name="Scan" component={() => <Placeholder name="Scan" />} />
+        <Tab.Screen name="Scan" component={ScanScreen} />
         <Tab.Screen name="History" component={() => <Placeholder name="History" />} />
-        <Tab.Screen name="Profile" component={() => <Placeholder name="Profile" />} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </TabBarVisibilityProvider>
   );

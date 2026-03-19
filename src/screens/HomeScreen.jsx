@@ -1,9 +1,26 @@
 import React, { useRef } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import { 
+  Smartphone, 
+  Tv, 
+  Lightbulb, 
+  Car, 
+  History, 
+  CreditCard, 
+  ShieldCheck, 
+  Landmark,
+  Plus
+} from 'lucide-react-native';
 import { useTabBarVisibility } from '../navigation/TabBarVisibilityContext';
 import GlassView from '../components/GlassView';
 import GlassBottomSheet from '../components/GlassBottomSheet';
+
+// Home Components
+import SectionHeader from '../components/home/SectionHeader';
+import CategoryItem from '../components/home/CategoryItem';
+import PromoBanner from '../components/home/PromoBanner';
+import ManageMoneyItem from '../components/home/ManageMoneyItem';
 
 const HomeScreen = () => {
   const bottomSheetRef = useRef(null);
@@ -22,79 +39,131 @@ const HomeScreen = () => {
     },
   });
 
-  const handlePresentModalPress = () => bottomSheetRef.current?.expand();
+  const billsData = [
+    { label: 'Jio Prepaid', bgColor: 'bg-blue-600' },
+    { label: 'Airtel Prepaid', bgColor: 'bg-red-600' },
+    { label: 'Vi Prepaid', bgColor: 'bg-rose-500' },
+    { label: 'Google Play', bgColor: 'bg-white' },
+    { label: 'Mobile recharge', icon: <Smartphone size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
+    { label: 'DTH / Cable TV', icon: <Tv size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
+    { label: 'Electricity', icon: <Lightbulb size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
+    { label: 'FASTag recharge', icon: <Car size={24} color="#60A5FA" />, bgColor: 'bg-blue-600/10' },
+  ];
+
+  const businessData = [
+    { label: 'Sasikala L', bgColor: 'bg-orange-700' },
+    { label: 'AROMA B...', bgColor: 'bg-slate-700' },
+    { label: 'KANAKA...', bgColor: 'bg-stone-700' },
+    { label: 'More', icon: <Plus size={24} color="#fff" />, bgColor: 'bg-slate-800' },
+  ];
 
   return (
-    <View className="flex-1 bg-slate-950">
+    <View className="flex-1 bg-[#0B0D0F]">
       <Animated.ScrollView 
-        className="flex-1 p-4"
+        className="flex-1"
         onScroll={scrollHandler}
         scrollEventThrottle={16}
+        contentContainerStyle={{ padding: 16, paddingTop: 60 }}
       >
-        <View className="mt-12 mb-6">
-          <Text className="text-3xl font-bold text-white">Welcome back!</Text>
-          <Text className="text-slate-400">Manage your payments with ease.</Text>
+        {/* Header Section (Simulated) */}
+        <View className="mb-8 items-center">
+            <View className="w-full flex-row justify-between items-center mb-6">
+                <View className="w-10 h-10 rounded-full bg-slate-800" />
+                <View className="flex-row gap-4">
+                    <History size={24} color="#fff" />
+                    <View className="w-8 h-8 rounded-full bg-slate-700" />
+                </View>
+            </View>
+            <View className="w-full h-40 rounded-3xl bg-slate-900/50 border border-white/5 items-center justify-center">
+                <Text className="text-white/40 mb-2">Scan any QR code</Text>
+                <View className="w-16 h-16 rounded-2xl bg-blue-600 items-center justify-center">
+                    <Smartphone size={32} color="#fff" />
+                </View>
+            </View>
         </View>
 
-        <GlassView className="p-6 mb-6">
-          <Text className="text-slate-400 mb-1">Total Balance</Text>
-          <Text className="text-4xl font-bold text-white">$12,450.00</Text>
-          <View className="flex-row mt-6 justify-between">
-            <TouchableOpacity 
-              onPress={handlePresentModalPress}
-              className="bg-blue-600 px-6 py-3 rounded-2xl"
-            >
-              <Text className="text-white font-semibold">Send Money</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-white/10 px-6 py-3 rounded-2xl border border-white/10">
-              <Text className="text-white font-semibold">Add Cash</Text>
-            </TouchableOpacity>
-          </View>
-        </GlassView>
-
-        <Text className="text-xl font-bold text-white mb-4">Bills & Recharges</Text>
-        <Animated.ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          className="flex-row mb-8"
-        >
-          {[
-            { name: 'Mobile', icon: '📱' },
-            { name: 'DTH', icon: '📡' },
-            { name: 'Electricity', icon: '💡' },
-            { name: 'Water', icon: '💧' },
-            { name: 'Fastag', icon: '🚗' },
-            { name: 'Internet', icon: '🌐' },
-            { name: 'Credit Card', icon: '💳' },
-          ].map((item, idx) => (
-            <View key={idx} className="items-center mr-6">
-              <TouchableOpacity className="w-16 h-16 bg-slate-900 rounded-2xl items-center justify-center border border-white/5 mb-2">
-                <Text className="text-2xl">{item.icon}</Text>
-              </TouchableOpacity>
-              <Text className="text-slate-400 text-[10px]">{item.name}</Text>
-            </View>
+        {/* Bills & Recharges */}
+        <SectionHeader title="Bills & recharges" actionText="Manage" />
+        <View className="flex-row flex-wrap justify-between px-1">
+          {billsData.map((item, index) => (
+            <CategoryItem 
+              key={index}
+              label={item.label}
+              icon={item.icon}
+              bgColor={item.bgColor}
+            />
           ))}
-        </Animated.ScrollView>
+        </View>
 
-        <Text className="text-xl font-bold text-white mb-4">Recent Transactions</Text>
-        {[
-          { name: 'Starbucks Coffee', date: 'Today, 10:24 AM', amount: '-$4.50', icon: '☕' },
-          { name: 'Apple Music', date: 'Yesterday, 08:30 PM', amount: '-$9.99', icon: '🎵' },
-          { name: 'Salary Deposit', date: '15 Mar, 09:00 AM', amount: '+$4,200.00', icon: '💰', color: 'text-emerald-500' },
-          { name: 'Amazon Store', date: '14 Mar, 02:15 PM', amount: '-$124.50', icon: '📦' },
-          { name: 'Uber Trip', date: '14 Mar, 11:45 AM', amount: '-$12.20', icon: '🚗' },
-        ].map((item, i) => (
-          <GlassView key={i} className="flex-row items-center p-4 mb-3">
-            <View className="w-12 h-12 bg-white/5 rounded-xl items-center justify-center mr-4">
-              <Text className="text-xl">{item.icon}</Text>
+        {/* Businesses */}
+        <SectionHeader title="Businesses" actionText="Explore" />
+        <View className="flex-row justify-between px-1 mb-4">
+          {businessData.map((item, index) => (
+            <CategoryItem 
+              key={index}
+              label={item.label}
+              icon={item.icon}
+              bgColor={item.bgColor}
+            />
+          ))}
+        </View>
+
+        {/* Gift cards & more */}
+        <SectionHeader title="Gift cards & more" />
+        <View className="flex-row gap-4 mb-8">
+          <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
+            <View className="w-10 h-10 bg-blue-600/20 rounded-xl items-center justify-center mb-3">
+              <Plus size={24} color="#60A5FA" />
             </View>
-            <View className="flex-1">
-              <Text className="text-white font-semibold">{item.name}</Text>
-              <Text className="text-slate-500 text-xs">{item.date}</Text>
-            </View>
-            <Text className={`font-bold ${item.color || 'text-white'}`}>{item.amount}</Text>
+            <Text className="text-white font-bold text-sm mb-1">Subscriptions</Text>
+            <Text className="text-white/40 text-[10px]">Buy plans from</Text>
           </GlassView>
-        ))}
+          <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
+            <View className="w-10 h-10 bg-blue-600/20 rounded-xl items-center justify-center mb-3">
+              <CreditCard size={24} color="#60A5FA" />
+            </View>
+            <Text className="text-white font-bold text-sm mb-1">Gift cards</Text>
+            <Text className="text-white/40 text-[10px]">Buy gift cards</Text>
+          </GlassView>
+        </View>
+
+        {/* Promo Banner */}
+        <PromoBanner 
+          title="New welcome back offer"
+          subtitle="Earn ₹21 when you welcome friends back to Google Pay"
+          actionText="Invite & earn"
+        />
+
+        {/* Manage Your Money */}
+        <SectionHeader title="Manage your money" />
+        <View className="flex-row gap-4 mb-4">
+            <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
+                <ShieldCheck size={24} color="#60A5FA" className="mb-3" />
+                <Text className="text-white font-bold text-sm mb-1">Flex by Google Pay</Text>
+                <Text className="text-white/40 text-[10px] mb-4">UPI credit card made simple</Text>
+                <Text className="text-blue-400 font-bold text-xs">Apply</Text>
+            </GlassView>
+            <GlassView className="flex-1 p-4 rounded-3xl bg-white/5 border-white/5">
+                <Landmark size={24} color="#60A5FA" className="mb-3" />
+                <Text className="text-white font-bold text-sm mb-1">Personal loan</Text>
+                <Text className="text-white/40 text-[10px] mb-4">Up to ₹10 lakh, instant approval</Text>
+                <Text className="text-blue-400 font-bold text-xs">Check details</Text>
+            </GlassView>
+        </View>
+
+        <ManageMoneyItem 
+          title="Check your CIBIL score for free"
+          icon={<History size={24} color="#60A5FA" />}
+        />
+        <ManageMoneyItem 
+          title="See transaction history"
+          icon={<History size={24} color="#60A5FA" />}
+        />
+        <ManageMoneyItem 
+          title="Check bank balance"
+          icon={<Landmark size={24} color="#60A5FA" />}
+        />
+
         <View className="h-40" />
       </Animated.ScrollView>
 
@@ -103,16 +172,10 @@ const HomeScreen = () => {
           <View className="w-20 h-20 bg-blue-600 rounded-full items-center justify-center mb-4">
             <Text className="text-white text-3xl">✓</Text>
           </View>
-          <Text className="text-2xl font-bold text-white">Payment Alert</Text>
-          <Text className="text-slate-400 text-center mt-2">
-            Are you sure you want to send $50.00 to John Doe?
-          </Text>
+          <Text className="text-2xl font-bold text-white">Payment Success</Text>
         </View>
-        <TouchableOpacity className="bg-blue-600 py-4 rounded-3xl w-full items-center mb-3">
-          <Text className="text-white font-bold text-lg">Confirm Payment</Text>
-        </TouchableOpacity>
-        <TouchableOpacity className="bg-white/5 py-4 rounded-3xl w-full items-center border border-white/10">
-          <Text className="text-white font-semibold">Cancel</Text>
+        <TouchableOpacity className="bg-blue-600 py-4 rounded-3xl w-full items-center">
+          <Text className="text-white font-bold text-lg">Done</Text>
         </TouchableOpacity>
       </GlassBottomSheet>
     </View>
