@@ -24,10 +24,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProfileScreen = ({ navigation }) => {
     const { hideTabBar, showTabBar } = useTabBarVisibility();
-    const { t, language: currentLanguage, colors, isDark } = useSettings();
+    const { t, language: currentLanguage, colors, isDark, shakeToScan, setShakeToScan } = useSettings();
     const lastScrollY = useSharedValue(0);
 
-    const [shakeToScan, setShakeToScan] = useState(true);
     const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
     const scrollHandler = useAnimatedScrollHandler({
@@ -113,8 +112,8 @@ const ProfileScreen = ({ navigation }) => {
 
                 {/* QR Code Card */}
                 <GlassView 
-                    style={{ backgroundColor: isDark ? colors.surface : colors.surface, borderColor: colors.border }} 
-                    className="p-6 rounded-[40px] border mb-8 items-center shadow-2xl"
+                    style={{ borderColor: colors.border }} 
+                    className={`p-6 rounded-[40px] border mb-8 items-center shadow-2xl ${isDark ? 'bg-white/5' : 'bg-black/5'}`}
                 >
                     <View className="flex-row items-center mb-6 self-start">
                         <View className="w-8 h-8 rounded-full bg-orange-500 items-center justify-center mr-3">

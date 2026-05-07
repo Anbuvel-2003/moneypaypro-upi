@@ -11,10 +11,14 @@ import {
 import { useTabBarVisibility } from '../navigation/TabBarVisibilityContext';
 import GlassView from '../components/GlassView';
 import FilterModal from '../components/history/FilterModal';
+import { useSettings } from '../context/SettingsContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const HistoryScreen = () => {
   const { hideTabBar, showTabBar } = useTabBarVisibility();
+  const { colors, isDark } = useSettings();
   const lastScrollY = useSharedValue(0);
+  const insets = useSafeAreaInsets();
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({
     Months: ['Feb 2026', 'Jan 2026'],
@@ -74,29 +78,36 @@ const HistoryScreen = () => {
   });
 
   const TransactionItem = ({ item }) => (
-    <TouchableOpacity className="flex-row items-center py-4 border-b border-white/5 mx-1" activeOpacity={0.7}>
+    <TouchableOpacity 
+        style={{ borderBottomColor: colors.border }} 
+        className="flex-row items-center py-4 border-b mx-1" 
+        activeOpacity={0.7}
+    >
       <View className="mr-4">
         {item.avatar ? (
           <Image source={{ uri: item.avatar }} className="w-12 h-12 rounded-full" />
         ) : (
-          <View className="w-12 h-12 rounded-2xl bg-white/5 items-center justify-center border border-white/10">
-            <ArrowUpRight size={24} color="#fff" />
+          <View 
+            style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)', borderColor: colors.border }} 
+            className="w-12 h-12 rounded-2xl items-center justify-center border"
+          >
+            <ArrowUpRight size={24} color={colors.text} />
           </View>
         )}
       </View>
       <View className="flex-1">
-        <Text className="text-white/40 text-[10px] mb-1">
+        <Text style={{ color: colors.textSecondary }} className="text-[10px] mb-1">
           {item.type === 'credit' ? 'Received from' : 'Paid to'}
         </Text>
-        <Text className="text-white font-medium text-lg leading-tight">{item.title}</Text>
-        <Text className="text-white/40 text-xs mt-1">{item.date}</Text>
+        <Text style={{ color: colors.text }} className="font-medium text-lg leading-tight">{item.title}</Text>
+        <Text style={{ color: colors.textSecondary }} className="text-xs mt-1">{item.date}</Text>
       </View>
       <View className="items-end">
-        <Text className={`font-bold text-lg ${item.type === 'credit' ? 'text-green-400' : 'text-white'}`}>
+        <Text style={{ color: item.type === 'credit' ? colors.accent : colors.text }} className="font-bold text-lg">
           {item.amount}
         </Text>
         <View className="flex-row items-center mt-1">
-          <Text className="text-white/40 text-[10px] mr-1">
+          <Text style={{ color: colors.textSecondary }} className="text-[10px] mr-1">
              {item.type === 'credit' ? 'Credited to' : 'Debited from'}
           </Text>
           <View className="w-4 h-4 rounded-full bg-orange-400/80 items-center justify-center">
@@ -108,23 +119,26 @@ const HistoryScreen = () => {
   );
 
   return (
-    <View className="flex-1 bg-[#0B0D0F]">
+    <View style={{ backgroundColor: colors.background }} className="flex-1">
       <Animated.ScrollView 
         className="flex-1"
         onScroll={scrollHandler}
         scrollEventThrottle={16}
-        contentContainerStyle={{ padding: 16, paddingTop: 60 }}
+        contentContainerStyle={{ padding: 16, paddingTop: Math.max(insets.top + 10, 20) }}
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
         <View className="flex-row justify-between items-center mb-6 px-1">
-          <Text className="text-white text-3xl font-bold">History</Text>
+          <Text style={{ color: colors.text }} className="text-3xl font-bold">History</Text>
           <View className="flex-row items-center gap-4">
-            <TouchableOpacity className="flex-row items-center bg-white/5 border border-white/10 px-4 py-2 rounded-full">
-              <Download size={18} color="#fff" className="mr-2" />
-              <Text className="text-white font-medium text-sm">My Statements</Text>
+            <TouchableOpacity 
+                style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)', borderColor: colors.border }} 
+                className="flex-row items-center border px-4 py-2 rounded-full"
+            >
+              <Download size={18} color={colors.text} className="mr-2" />
+              <Text style={{ color: colors.text }} className="font-medium text-sm">My Statements</Text>
             </TouchableOpacity>
-            <HelpCircle size={24} color="#fff" />
+            <HelpCircle size={24} color={colors.text} />
           </View>
         </View>
 
@@ -136,36 +150,36 @@ const HistoryScreen = () => {
             paddingHorizontal: 16, 
             height: 56, 
             borderRadius: 18, 
-            backgroundColor: 'rgba(255,255,255,0.06)', 
+            backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', 
             borderWidth: 1, 
-            borderColor: 'rgba(255,255,255,0.05)',
+            borderColor: colors.border,
             marginBottom: 32
         }}>
-            <Search size={22} color="rgba(255,255,255,0.5)" style={{ marginRight: 12 }} />
+            <Search size={22} color={colors.textSecondary} style={{ marginRight: 12 }} />
             <TextInput 
                 placeholder="Search" 
-                placeholderTextColor="rgba(255,255,255,0.4)"
+                placeholderTextColor={colors.textSecondary}
                 style={{ 
                     flex: 1, 
-                    color: '#fff', 
+                    color: colors.text, 
                     fontSize: 16, 
                     fontWeight: '500',
                     height: '100%'
                 }}
             />
-            <View style={{ width: 1, height: 24, backgroundColor: 'rgba(255,255,255,0.1)', mx: 12, marginHorizontal: 12 }} />
+            <View style={{ width: 1, height: 24, backgroundColor: colors.border, marginHorizontal: 12 }} />
             <TouchableOpacity 
                 onPress={() => setFilterModalVisible(true)}
                 style={{ padding: 4 }}
             >
-                <SlidersHorizontal size={22} color="#fff" />
+                <SlidersHorizontal size={22} color={colors.text} />
             </TouchableOpacity>
         </View>
 
         {/* Monthly Sections */}
         {Object.keys(filteredTransactions).map((monthKey) => (
           <View key={monthKey} className="mb-6">
-            <Text className="text-white/40 text-[10px] uppercase font-bold tracking-widest mb-4 ml-1">
+            <Text style={{ color: colors.textSecondary }} className="text-[10px] uppercase font-bold tracking-widest mb-4 ml-1">
                 {monthKey}
             </Text>
             {filteredTransactions[monthKey].map((item) => (

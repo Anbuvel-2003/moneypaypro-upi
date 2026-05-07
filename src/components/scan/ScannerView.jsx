@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions, Alert } from 'react-native';
 import { Camera, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
 import { Zap, ZapOff, Image as ImageIcon, ArrowLeft, HelpCircle } from 'lucide-react-native';
 import Animated, { 
@@ -11,13 +11,18 @@ import Animated, {
   Easing
 } from 'react-native-reanimated';
 import { launchImageLibrary } from 'react-native-image-picker';
+import RNQRGenerator from 'rn-qr-generator';
 import GlassView from '../GlassView';
+import { useSettings } from '../../context/SettingsContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');
 
 const ScannerView = ({ onCodeScanned, onClose }) => {
   const device = useCameraDevice('back');
   const [torch, setTorch] = useState('off');
+  const { colors } = useSettings();
+  const insets = useSafeAreaInsets();
   
   // Heartbeat Scale Animation
   const scale = useSharedValue(1);
@@ -71,14 +76,26 @@ const ScannerView = ({ onCodeScanned, onClose }) => {
   });
 
   const handleGalleryUpload = async () => {
-    const result = await launchImageLibrary({
-      mediaType: 'photo',
-      includeBase64: false,
-    });
-    
-    if (result.assets && result.assets.length > 0) {
-      console.log('Image selected:', result.assets[0].uri);
-      onCodeScanned('SCANNED_FROM_GALLERY');
+    try {
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        includeBase64: false,
+      });
+      
+      if (result.assets && result.assets.length > 0) {
+        const uri = result.assets[0].uri;
+        console.log('Image selected:', uri);
+        
+        const detectResult = await RNQRGenerator.detect({ uri });
+        if (detectResult.values && detectResult.values.length > 0) {
+          onCodeScanned(detectResult.values[0]);
+        } else {
+          Alert.alert('No QR Code', 'Could not detect a QR code in the selected image.');
+        }
+      }
+    } catch (error) {
+      console.log('Error scanning image:', error);
+      Alert.alert('Error', 'Failed to process the image.');
     }
   };
 
@@ -95,7 +112,7 @@ const ScannerView = ({ onCodeScanned, onClose }) => {
       />
       
       {/* Scanner Overlay UI */}
-      <View style={styles.overlay}>
+      <View style={[styles.overlay, { paddingTop: Math.max(insets.top + 10, 20) }]}>
         <View style={styles.topContainer}>
           <TouchableOpacity onPress={onClose} className="p-2">
             <ArrowLeft size={28} color="#fff" />
@@ -113,13 +130,13 @@ const ScannerView = ({ onCodeScanned, onClose }) => {
         <View style={styles.frameContainer}>
           <Animated.View style={[styles.frame, animatedFrameStyle]}>
              {/* Corner borders */}
-             <View style={[styles.corner, styles.topLeft]} />
-             <View style={[styles.corner, styles.topRight]} />
-             <View style={[styles.corner, styles.bottomLeft]} />
-             <View style={[styles.corner, styles.bottomRight]} />
+             <View style={[styles.corner, styles.topLeft, { borderColor: colors.primary }]} />
+             <View style={[styles.corner, styles.topRight, { borderColor: colors.primary }]} />
+             <View style={[styles.corner, styles.bottomLeft, { borderColor: colors.primary }]} />
+             <View style={[styles.corner, styles.bottomRight, { borderColor: colors.primary }]} />
              
              {/* Scanning Line */}
-             <Animated.View style={[styles.scanLine, animatedLineStyle]} />
+             <Animated.View style={[styles.scanLine, animatedLineStyle, { backgroundColor: colors.primary, shadowColor: colors.primary }]} />
           </Animated.View>
         </View>
 
@@ -184,7 +201,6 @@ const styles = StyleSheet.create({
   corner: {
     width: 30,
     height: 30,
-    borderColor: '#9D174D', // Theme corner
     position: 'absolute',
   },
   topLeft: {
@@ -218,8 +234,6 @@ const styles = StyleSheet.create({
   scanLine: {
     width: '100%',
     height: 3,
-    backgroundColor: '#9D174D',
-    shadowColor: '#9D174D',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 10,

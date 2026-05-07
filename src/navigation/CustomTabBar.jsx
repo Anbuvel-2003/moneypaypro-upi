@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import GlassView from '../components/GlassView';
@@ -11,7 +12,7 @@ import Animated, {
   runOnJS 
 } from 'react-native-reanimated';
 import { useTabBarVisibility } from './TabBarVisibilityContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/SettingsContext';
 
 import Svg, { Path, Circle } from 'react-native-svg';
 
@@ -20,7 +21,7 @@ import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const insets = useSafeAreaInsets();
   const { translateY, showTabBar } = useTabBarVisibility();
-  const { t } = useLanguage();
+  const { t, isDark, colors } = useLanguage();
   const [containerWidth, setContainerWidth] = React.useState(0);
   const numTabs = state.routes.length;
   const padding = 16; // px-2 is 8px * 2
@@ -110,7 +111,11 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
           className="mx-5"
           style={styles.floatingContainer}
         >
-          <GlassView className="flex-row items-center rounded-[32px] px-2 py-2 border border-white/20" blurAmount={40}>
+          <GlassView 
+            className={`flex-row items-center rounded-[32px] px-2 py-2 border ${isDark ? 'border-white/20 bg-white/10' : 'border-black/10 bg-black/5'}`} 
+            blurAmount={40}
+            blurType={isDark ? "dark" : "light"}
+          >
             <Animated.View 
               style={[
                 indicatorStyle, 
@@ -119,9 +124,9 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                   top: 6, 
                   bottom: 6, 
                   left: 0, 
-                  backgroundColor: 'rgba(255, 255, 255, 0.2)', 
+                  backgroundColor: isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)', 
                   borderRadius: 26,
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  borderColor: isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.2)',
                   borderWidth: 1.5,
                 }
               ]} 
@@ -149,7 +154,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 }
               };
 
-              const iconColor = isFocused ? '#9D174D' : 'rgba(255, 255, 255, 0.4)';
+              const iconColor = isFocused ? colors.primary : (isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)');
+              const textColorClass = isFocused ? 'text-primary' : (isDark ? 'text-white/40' : 'text-black/40');
 
               // Local Animated style for scaling and dimming
               const ItemAnimatedComponent = ({ children }) => {
@@ -173,7 +179,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                     <View className="items-center py-2">
                       {getIcon(route.name, iconColor, 24, isFocused)}
                       <Text 
-                        className={`text-[10px] mt-1 font-bold tracking-tight ${isFocused ? 'text-primary' : 'text-white/40'}`}
+                        className={`text-[10px] mt-1 font-bold tracking-tight ${textColorClass}`}
                       >
                         {label}
                       </Text>

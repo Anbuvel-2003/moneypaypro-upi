@@ -8,6 +8,7 @@ import DeveloperModeModal from './src/components/DeveloperModeModal';
 import PermissionManager from './src/utils/PermissionManager';
 import OfflineNotice from './src/components/OfflineNotice';
 import { LanguageProvider } from './src/context/SettingsContext';
+import GlobalShakeListener from './src/components/GlobalShakeListener';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <DeveloperModeModal />
           <PermissionManager />
           <OfflineNotice />
+          <GlobalShakeListener />
         </NavigationContainer>
       </SafeAreaProvider>
     </GestureHandlerRootView>

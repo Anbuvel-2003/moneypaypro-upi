@@ -19,6 +19,7 @@ export const SettingsProvider = ({ children }) => {
   const [language, setLanguage] = useState('English');
   const [themeMode, setThemeMode] = useState('system'); // 'light', 'dark', 'system'
   const [currentColors, setCurrentColors] = useState(themePalette.dark);
+  const [shakeToScan, setShakeToScan] = useState(true);
 
   useEffect(() => {
     const updateColors = () => {
@@ -47,7 +48,9 @@ export const SettingsProvider = ({ children }) => {
       themeMode, 
       setThemeMode, 
       colors: currentColors,
-      isDark: currentColors === themePalette.dark
+      isDark: currentColors === themePalette.dark,
+      shakeToScan,
+      setShakeToScan
     }}>
       {children}
     </SettingsContext.Provider>

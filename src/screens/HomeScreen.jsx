@@ -18,6 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import GlassView from '../components/GlassView';
 import GlassBottomSheet from '../components/GlassBottomSheet';
 import { useSettings } from '../context/SettingsContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Home Components
 import SectionHeader from '../components/home/SectionHeader';
@@ -31,6 +32,7 @@ const HomeScreen = () => {
   const { hideTabBar, showTabBar } = useTabBarVisibility();
   const { colors, isDark } = useSettings();
   const lastScrollY = useSharedValue(0);
+  const insets = useSafeAreaInsets();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -68,7 +70,7 @@ const HomeScreen = () => {
         className="flex-1"
         onScroll={scrollHandler}
         scrollEventThrottle={16}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 60, paddingBottom: 100 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: Math.max(insets.top + 10, 20), paddingBottom: 100 }}
       >
         {/* Header Section (Simulated) */}
         <View className="mb-8 items-center">
