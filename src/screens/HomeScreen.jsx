@@ -11,7 +11,8 @@ import {
   ShieldCheck, 
   Landmark,
   Plus,
-  Play
+  Play,
+  Bell
 } from 'lucide-react-native';
 import { useTabBarVisibility } from '../navigation/TabBarVisibilityContext';
 import { useNavigation } from '@react-navigation/native';
@@ -64,6 +65,8 @@ const HomeScreen = () => {
     { label: 'More', icon: <Plus size={24} color={colors.text} />, bgColor: isDark ? 'bg-slate-800' : 'bg-slate-200' },
   ];
 
+  const buttonBgStyle = { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)' };
+
   return (
     <View style={{ backgroundColor: colors.background }} className="flex-1">
       <Animated.ScrollView 
@@ -72,13 +75,32 @@ const HomeScreen = () => {
         scrollEventThrottle={16}
         contentContainerStyle={{ paddingHorizontal: 20, paddingTop: Math.max(insets.top + 10, 20), paddingBottom: 100 }}
       >
-        {/* Header Section (Simulated) */}
+        {/* Header Section */}
         <View className="mb-8 items-center">
             <View className="w-full flex-row justify-between items-center mb-6">
-                <View style={{ backgroundColor: isDark ? colors.surface : colors.surfaceSecondary }} className="w-10 h-10 rounded-full" />
-                <View className="flex-row gap-4">
-                    <History size={24} color={colors.text} />
-                    <View style={{ backgroundColor: isDark ? colors.surface : colors.surfaceSecondary }} className="w-8 h-8 rounded-full" />
+                <TouchableOpacity 
+                    onPress={() => navigation.navigate('Profile')}
+                    className="w-10 h-10 rounded-full bg-primary items-center justify-center border border-white/20"
+                >
+                    <Text className="text-white font-bold text-lg">D</Text>
+                </TouchableOpacity>
+
+                <View className="flex-row gap-3">
+                    <TouchableOpacity 
+                        style={buttonBgStyle} 
+                        className="w-10 h-10 rounded-full items-center justify-center"
+                        onPress={() => navigation.navigate('History')}
+                    >
+                        <History size={20} color={colors.text} />
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity 
+                        style={buttonBgStyle} 
+                        className="w-10 h-10 rounded-full items-center justify-center relative"
+                    >
+                        <View className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full z-10 border border-white" />
+                        <Bell size={20} color={colors.text} />
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={{ backgroundColor: colors.surfaceSecondary, borderColor: colors.border }} className="w-full h-40 rounded-3xl border items-center justify-center">
